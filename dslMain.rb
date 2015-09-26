@@ -14,6 +14,8 @@ class Product
 		end
 	end
 
+
+
 	# add an action to the product to be called
 	def add_action(action)
 		@actions << action
@@ -25,7 +27,6 @@ class Product
 
 	def packing_slip(slip)
 		puts "------- Printing packing slip for #{slip}"
-
 	end
 
 	def activate
@@ -42,7 +43,6 @@ class Product
 
 	def sign(card)
 		puts "------- Signing #{card}"
-
 	end
 
 	def email(args)
@@ -52,56 +52,97 @@ end
 
 class DSL
 
+	attr_accessor:current_product
 
+	def initialize
+		@current_product=nil
+	end
+
+	hash = {}
+
+	def contains(p)
+		#checks to see if there is a product of type p in the hash
+	end
+
+	def get_product(p)
+		#returns the Product of type p
+	end
+
+	def add_product(p)
+		#creates a product of type p and sets current_product equal to that
+
+	end
 
 	def mainMenu
 		# presents the main menu until the user quits
 		# allows the user to process orders
-		end=false
-		while(!end)
-		puts "<<<< Main Menu >>>>"
-		puts "1. Load Rules"
-		puts "2. Process Orders"
-		puts "3. End"
-		puts "Your selection: "
-		selection = gets.chomp
-		if selection == "1"
-			optionFile
-		elsif selection == "2"
-			processOrder
-		else
-			end=true
+		endExec=false
+		while(!endExec)
+			puts "<<<< Main Menu >>>>"
+			puts "1. Load Rules"
+			puts "2. Process Orders"
+			puts "3. End"
+			puts "Your selection: "
+			selection = gets.chomp
+			if selection == "1"
+				optionFile
+			elsif selection == "2"
+				processOrder
+			else
+				endExec=true
+			end
 		end
 	end
 
 	def optionFile
 		puts "Enter filename containing rules: "
 		file=gets.chomp
+<<<<<<< HEAD
 		rulesFile = file.open(file, "r")
 		rescue Errno::ENOENT 
 			#no such file or directory found
 			optionFile
 		end 
+=======
+>>>>>>> 69285090e998246a8627747918f87d3f0decc825
 		# add a .txt extension if not there
 		if !file.include?".txt"
 			file=file+".txt"
 		end
-		#File.open()
-		#throw exception if error thrown
+		rulesFile = File.open(file, "r")
+		rescue Errno::ENOENT 
+			#no such file or directory found
+			optionFile
+		end 
 	end
+
 
 	def processOrder
 		puts "Enter product type or 'D' (done) to end: "
 		prod=gets.chomp
+		if prod=='d' || prod =='D'
+			return
+		end
 		#process product
 		if prod == 'D'
 			return
 
-		rescue ArgumentError
+		raise ArgumentError, "Undefined product: #{prod}"
 			# argument is incorrect
+
+	end
+
+end
+
+def product(p)
+		if !(DSL.instance.contains p)
+			DSL.instance.add_product Product.new(p)
+		else
+			DSL.instance.current_product = DSL.instance.get_product(p)
 		end
 	end
 
+<<<<<<< HEAD
 end
 
 
@@ -160,3 +201,17 @@ def email(* args)
 	args = args[0]
 end
 load 'rules.txt'
+=======
+	def packing_slip(slip)
+		# how to add parameter and name of fn (packing_slip)
+		DSL.instance.current_product.add_action(slip)
+	end
+
+	def activate
+		DSL.instance.current_product.add_action(slip)
+	end
+
+dsl=DSL.new
+dsl.mainMenu
+dsl.optionFile
+>>>>>>> 69285090e998246a8627747918f87d3f0decc825
