@@ -8,18 +8,24 @@ class Product
 		arr = ["book", "membership", "ski pass", "video", "boots", "helmet"]
 		if arr.include?type
 			@type = type
-			@actions = []
+			@actions = ""
 		else
 			#throw an error because the type is not a valid product
 			raise NameError, "#{type} is not a valid product name"
 		end
 	end
 
-
+	def callMethods
+		act=actions.split(/!/)
+		for line in act
+			puts "#{line}"
+			instance_eval(line)
+		end
+	end
 
 	# add an action to the product to be called
 	def add_action(action)
-		@actions << action
+		@actions << "#{action} "
 	end
 
 	def product(p)
@@ -51,7 +57,6 @@ class Product
 	end
 end
 
-
 class DSL
 
 	include Singleton
@@ -77,6 +82,7 @@ class DSL
 		#creates a product of type p and sets current_product equal to that
 		prod = Product.new(p)
 		@current_product = prod
+		allProducts.store(p, prod)
 	end
 
 	def mainMenu
@@ -92,6 +98,7 @@ class DSL
 			selection = gets.chomp
 			if selection == "1"
 				optionFile
+				puts allProducts
 			elsif selection == "2"
 				processOrder
 			else
@@ -112,19 +119,25 @@ class DSL
 		rescue Errno::ENOENT 
 			#no such file or directory found
 			optionFile
-		end 
-	#end
+		end
 
 	def processOrder
-		puts "Enter product type or 'D' (done) to end: "
-		prod=gets.chomp
-		if prod=='d' || prod =='D'
-			return
-		end
-		raise ArgumentError, "Undefined product: #{prod}"
-			# argument is incorrect
+		notStop=true
+		while(notStop)
+			puts "Enter product type or 'D' (done) to end: "
+			prod=gets.chomp
+			if prod=='d' || prod =='D'
+				return
+			end
+			if !contains(prod)
+				#the procuct is not defined
+				puts "Undefined product: #{prod}"
+				processOrder
+				break
+			end
+			get_product(prod).callMethods
+			end
 	end
-
 end
 
 #book, membership, ski pass, ski video, ski boots, ski helmet
@@ -134,25 +147,15 @@ def product(* p)
 		#throw exception
 	end
 	p=p[0]
-	puts "#{p} is p"
+	#puts "#{p} is p"
 	#check to see if product is a valid product
 	if !(DSL.instance.contains p)
 		DSL.instance.add_product p
 	else
 		DSL.instance.current_product = DSL.instance.get_product(p)
 	end
-	puts "current product is #{DSL.instance.current_product.type}"
-end
-
-def packing_slip(* slip)
-		# how to add parameter and name of fn (packing_slip)
-	if slip.size > 1
-		#throw exception
-		raise ArgumentError, "Function takes one parameter"
-	end
-	slip= slip[0]
-	# how to add parameter and name of fn (packing_slip)
-	DSL.instance.current_product.add_action(slip)
+	#puts "current product is #{DSL.instance.current_product.type}"
+	#puts 
 end
 
 def activate(* args)
@@ -160,44 +163,51 @@ def activate(* args)
 	if args.size!=0
 				raise ArgumentError, "Function takes no parameters"
 	end
-	DSL.instance.current_product.add_action("SOMETHING")
+	DSL.instance.current_product.add_action("activate!")
 end
 
-def packing_slip(slip)
-	# how to add parameter and name of fn (packing_slip)
-	DSL.instance.current_product.add_action(slip)
+def packing_slip(* slip)
+	if slip.size > 1
+		#throw exception
+		raise ArgumentError, "Function takes one parameter"
+	end
+	slip = slip[0]	
+	DSL.instance.current_product.add_action("packing_slip(\"#{slip}\")!")
 end
 
 def pay(* action)
 	if action.size > 1
 		#throw exception
+		raise ArgumentError, "Function takes one parameter"
 	end
 	action = action[0]
+	DSL.instance.current_product.add_action("pay(\"#{action}\")!")
 end
 
 def include_free(* p)
 	if p.size > 1
 		#throw exception
+		raise ArgumentError, "Function takes one parameter"
 	end
 	p=p[0]
+	DSL.instance.current_product.add_action("include_free(\"#{p}\")!")
 end
 
 def sign(* card)
 	if card.size > 1
 		#throw exception
+		raise ArgumentError, "Function takes one parameter"
 	end
 	card = card[0]
+	DSL.instance.current_product.add_action("sign(\"#{card}\")!")
 end
 
 def email(* args)
 	if args.size > 1
 		#throw exception
+		raise ArgumentError, "Function takes one parameter"
 	end
 	args = args[0]
+	DSL.instance.current_product.add_action("email(\"#{args}\")!")
 end
-
-load 'rules.txt'
-
-#dsl=DSL.new
-#dsl.mainMenu
-
+load 'badRules2.txt'

@@ -1,0 +1,27 @@
+product 'books'
+packing_slip 'royalty'
+packing_slip 'shipping'
+
+product 'book'
+pay 'commission'
+
+product 'skis pass'
+email 'purchaser'
+email 'resort'
+
+product 'videoes'
+pay 'commission'
+
+product 'video'
+packing_slip 'shipping'
+include_free 'first aid video'
+
+product 'membersship'
+activate 'hello'
+email 'purchaser'
+
+product 'boots'
+include_free 'discount'
+
+product 'helmet'
+sign 'warranty card'
