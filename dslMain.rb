@@ -50,7 +50,28 @@ class Product
 	end
 end
 
-module DSL
+class DSL
+
+	attr_accessor:current_product
+
+	def initialize
+		@current_product=nil
+	end
+
+	hash = {}
+
+	def contains(p)
+		#checks to see if there is a product of type p in the hash
+	end
+
+	def get_product(p)
+		#returns the Product of type p
+	end
+
+	def add_product(p)
+		#creates a product of type p and sets current_product equal to that
+
+	end
 
 	def mainMenu
 		# presents the main menu until the user quits
@@ -102,6 +123,24 @@ module DSL
 	end
 
 end
-include DSL
-DSL.mainMenu
-DSL.optionFile
+
+def product(p)
+		if !(DSL.instance.contains p)
+			DSL.instance.add_product Product.new(p)
+		else
+			DSL.instance.current_product = DSL.instance.get_product(p)
+		end
+	end
+
+	def packing_slip(slip)
+		# how to add parameter and name of fn (packing_slip)
+		DSL.instance.current_product.add_action(slip)
+	end
+
+	def activate
+		DSL.instance.current_product.add_action(slip)
+	end
+
+dsl=DSL.new
+dsl.mainMenu
+dsl.optionFile
