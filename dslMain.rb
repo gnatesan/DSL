@@ -23,6 +23,10 @@ class DSL
 	def optionFile
 		puts "Enter filename containing rules: "
 		file=gets.chomp
+		# add a .txt extension if not there
+		if !file.include?".txt"
+			file=file+".txt"
+		end
 		#File.open()
 		#throw exception if error thrown
 	end
