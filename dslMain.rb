@@ -30,6 +30,10 @@ class DSL
 			#no such file or directory found
 			optionFile
 		end 
+		# add a .txt extension if not there
+		if !file.include?".txt"
+			file=file+".txt"
+		end
 		#File.open()
 		#throw exception if error thrown
 	end
