@@ -5,7 +5,7 @@ packing_slip 'shipping'
 product 'book'
 pay 'commission'
 
-product 'skipass'
+product 'ski pass'
 email 'purchaser'
 packing_slip 'shipping'
 pay 'commission'

@@ -5,7 +5,7 @@ packing_slip 'shipping'
 product 'book'
 pay 'commission'
 
-product 'skipass'
+product 'ski pass'
 email 'purchaser'
 email 'resort'
 
@@ -14,7 +14,7 @@ pay 'commission'
 
 product 'video'
 packing_slip 'shipping'
-include_free 'firstaid'
+include_free 'first aid video'
 
 product 'membership'
 activate
@@ -24,4 +24,4 @@ product 'boots'
 include_free 'discount'
 
 product 'helmet'
-sign 'warranty'
+sign 'warranty card'
