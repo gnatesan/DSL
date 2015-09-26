@@ -51,29 +51,32 @@ class Product
 	end
 end
 
+
 class DSL
 
 	include Singleton
 	attr_accessor:current_product
+	attr_accessor:allProducts
 
 	def initialize
 		@current_product=nil
+		@allProducts = Hash.new
 	end
-
-	hash = {}
 
 	def contains(p)
 		#checks to see if there is a product of type p in the hash
-		return false
+		allProducts.has_key?(p)
 	end
 
 	def get_product(p)
 		#returns the Product of type p
+		allProducts[p]
 	end
 
 	def add_product(p)
 		#creates a product of type p and sets current_product equal to that
-
+		prod = Product.new(p)
+		@current_product = prod
 	end
 
 	def mainMenu
@@ -97,6 +100,7 @@ class DSL
 		end
 	end
 
+
 	def optionFile
 		puts "Enter filename containing rules: "
 		file=gets.chomp
@@ -109,8 +113,7 @@ class DSL
 			#no such file or directory found
 			optionFile
 		end 
-	end
-
+	#end
 
 	def processOrder
 		puts "Enter product type or 'D' (done) to end: "
@@ -118,31 +121,27 @@ class DSL
 		if prod=='d' || prod =='D'
 			return
 		end
-		#process product
-		if prod == 'D'
-			return
-
 		raise ArgumentError, "Undefined product: #{prod}"
 			# argument is incorrect
 	end
+
 end
 
 #book, membership, ski pass, ski video, ski boots, ski helmet
-allProducts = Hash.new
 
 def product(* p)
-	puts "#{p} is being added"
 	if p.size > 1
 		#throw exception
 	end
 	p=p[0]
+	puts "#{p} is p"
 	#check to see if product is a valid product
 	if !(DSL.instance.contains p)
-		DSL.instance.add_product Product.new(p)
+		DSL.instance.add_product p
 	else
 		DSL.instance.current_product = DSL.instance.get_product(p)
 	end
-	puts "current product is #{DSL.instance.current_product}"
+	puts "current product is #{DSL.instance.current_product.type}"
 end
 
 def packing_slip(* slip)
@@ -161,9 +160,13 @@ def activate(* args)
 	if args.size!=0
 				raise ArgumentError, "Function takes no parameters"
 	end
-	DSL.instance.current_product.add_action()
+	DSL.instance.current_product.add_action("SOMETHING")
 end
 
+def packing_slip(slip)
+	# how to add parameter and name of fn (packing_slip)
+	DSL.instance.current_product.add_action(slip)
+end
 
 def pay(* action)
 	if action.size > 1
@@ -184,7 +187,6 @@ def sign(* card)
 		#throw exception
 	end
 	card = card[0]
-
 end
 
 def email(* args)
@@ -193,7 +195,9 @@ def email(* args)
 	end
 	args = args[0]
 end
+
 load 'rules.txt'
 
-dsl=DSL.new
-dsl.mainMenu
+#dsl=DSL.new
+#dsl.mainMenu
+
