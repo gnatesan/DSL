@@ -1,3 +1,4 @@
+require 'singleton'
 class Product
 
 	attr_accessor:type
@@ -52,6 +53,7 @@ end
 
 class DSL
 
+	include Singleton
 	attr_accessor:current_product
 
 	def initialize
@@ -62,6 +64,7 @@ class DSL
 
 	def contains(p)
 		#checks to see if there is a product of type p in the hash
+		return false
 	end
 
 	def get_product(p)
@@ -116,23 +119,34 @@ class DSL
 			return
 		end
 		#process product
+		if prod == 'D'
+			return
 
 		raise ArgumentError, "Undefined product: #{prod}"
 			# argument is incorrect
 	end
 end
 
-def product(p)
+#book, membership, ski pass, ski video, ski boots, ski helmet
+allProducts = Hash.new
+
+def product(* p)
+	puts "#{p} is being added"
+	if p.size > 1
+		#throw exception
+	end
+	p=p[0]
 	#check to see if product is a valid product
 	if !(DSL.instance.contains p)
 		DSL.instance.add_product Product.new(p)
 	else
 		DSL.instance.current_product = DSL.instance.get_product(p)
 	end
+	puts "current product is #{DSL.instance.current_product}"
 end
 
-def packing_slip(slip)
-	# do error checking
+def packing_slip(* slip)
+		# how to add parameter and name of fn (packing_slip)
 	if slip.size > 1
 		#throw exception
 		raise ArgumentError, "Function takes one parameter"
@@ -149,6 +163,37 @@ def activate(* args)
 	end
 	DSL.instance.current_product.add_action()
 end
+
+
+def pay(* action)
+	if action.size > 1
+		#throw exception
+	end
+	action = action[0]
+end
+
+def include_free(* p)
+	if p.size > 1
+		#throw exception
+	end
+	p=p[0]
+end
+
+def sign(* card)
+	if card.size > 1
+		#throw exception
+	end
+	card = card[0]
+
+end
+
+def email(* args)
+	if args.size > 1
+		#throw exception
+	end
+	args = args[0]
+end
+load 'rules.txt'
 
 dsl=DSL.new
 dsl.mainMenu
