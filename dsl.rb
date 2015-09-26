@@ -5,7 +5,9 @@ def product(* p)
 	if p.size > 1
 		#throw exception
 	end
-	puts "------- Processing order for a: #{p}"
+	p=p[0]
+	puts
+	puts "------- Processing order for a #{p}"
 end
 
 def packing_slip(* slip)
@@ -13,15 +15,13 @@ def packing_slip(* slip)
 		#throw exception
 		raise ArgumentError, "Function takes one parameter"
 	end
+	slip= slip[0]
 	puts "------- Printing packing slip for #{slip}"
 
 end
 
-def activate(* args)
-	if args.size > 0
-		#throw an exception
-	end
-	puts "------- Activating #{args}"
+def activate
+	puts "------- Activating membership"
 
 end
 
@@ -29,7 +29,32 @@ def pay(* action)
 	if action.size > 1
 		#throw exception
 	end
+	action = action[0]
 	puts "------- Paying #{action}"	
 end
 
-load 'rules.qm'
+def include_free(* p)
+	if p.size > 1
+		#throw exception
+	end
+	p=p[0]
+	puts "------- Including a free #{p}"
+end
+
+def sign(* card)
+	if card.size > 1
+		#throw exception
+	end
+	card = card[0]
+	puts "------- Signing #{card}"
+
+end
+
+def email(* args)
+	if args.size > 1
+		#throw exception
+	end
+	args = args[0]
+	puts "------- Emailing #{args}"
+end
+load 'rules.txt'
