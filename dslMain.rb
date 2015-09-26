@@ -77,7 +77,7 @@ class DSL
 	def optionFile
 		puts "Enter filename containing rules: "
 		file=gets.chomp
-		rulesFile = file.open(file, "w")
+		rulesFile = file.open(file, "r")
 		rescue Errno::ENOENT 
 			#no such file or directory found
 			optionFile
@@ -94,6 +94,8 @@ class DSL
 		puts "Enter product type or 'D' (done) to end: "
 		prod=gets.chomp
 		#process product
+		if prod == 'D'
+			return
 
 		rescue ArgumentError
 			# argument is incorrect
@@ -101,3 +103,60 @@ class DSL
 	end
 
 end
+
+
+#book, membership, ski pass, ski video, ski boots, ski helmet
+allProducts = Hash.new
+
+def product(* p)
+	if p.size > 1
+		#throw exception
+	end
+	p=p[0]
+	prod = Product.new(p)
+	allProducts[p] = prod
+end
+
+def packing_slip(* slip)
+	if slip.size > 1
+		#throw exception
+		raise ArgumentError, "Function takes one parameter"
+	end
+	slip= slip[0]
+
+end
+
+def activate
+
+
+end
+
+def pay(* action)
+	if action.size > 1
+		#throw exception
+	end
+	action = action[0]
+end
+
+def include_free(* p)
+	if p.size > 1
+		#throw exception
+	end
+	p=p[0]
+end
+
+def sign(* card)
+	if card.size > 1
+		#throw exception
+	end
+	card = card[0]
+
+end
+
+def email(* args)
+	if args.size > 1
+		#throw exception
+	end
+	args = args[0]
+end
+load 'rules.txt'
