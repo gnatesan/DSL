@@ -1,5 +1,7 @@
 class DSL
 
+
+
 	def mainMenu
 		# presents the main menu until the user quits
 		# allows the user to process orders
@@ -13,7 +15,7 @@ class DSL
 		selection = gets.chomp
 		if selection == "1"
 			optionFile
-		else if selection == "2"
+		elsif selection == "2"
 			processOrder
 		else
 			end=true
@@ -23,6 +25,11 @@ class DSL
 	def optionFile
 		puts "Enter filename containing rules: "
 		file=gets.chomp
+		rulesFile = file.open(file, "w")
+		rescue Errno::ENOENT 
+			#no such file or directory found
+			optionFile
+		end 
 		#File.open()
 		#throw exception if error thrown
 	end
