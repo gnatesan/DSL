@@ -119,28 +119,36 @@ class DSL
 
 		raise ArgumentError, "Undefined product: #{prod}"
 			# argument is incorrect
-
 	end
-
 end
 
 def product(p)
-		if !(DSL.instance.contains p)
-			DSL.instance.add_product Product.new(p)
-		else
-			DSL.instance.current_product = DSL.instance.get_product(p)
-		end
+	#check to see if product is a valid product
+	if !(DSL.instance.contains p)
+		DSL.instance.add_product Product.new(p)
+	else
+		DSL.instance.current_product = DSL.instance.get_product(p)
 	end
+end
 
-	def packing_slip(slip)
-		# how to add parameter and name of fn (packing_slip)
-		DSL.instance.current_product.add_action(slip)
+def packing_slip(slip)
+	# do error checking
+	if slip.size > 1
+		#throw exception
+		raise ArgumentError, "Function takes one parameter"
 	end
+	slip= slip[0]
+	# how to add parameter and name of fn (packing_slip)
+	DSL.instance.current_product.add_action(slip)
+end
 
-	def activate
-		DSL.instance.current_product.add_action(slip)
+def activate(* args)
+	# do error checking
+	if args.size!=0
+				raise ArgumentError, "Function takes no parameters"
 	end
+	DSL.instance.current_product.add_action()
+end
 
 dsl=DSL.new
 dsl.mainMenu
-dsl.optionFile
