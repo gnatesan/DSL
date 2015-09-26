@@ -58,19 +58,22 @@ class DSL
 		@current_product=nil
 	end
 
-	hash = {}
+	allProducts = Hash.new
 
 	def contains(p)
 		#checks to see if there is a product of type p in the hash
+		allProducts.has_key?(p)
 	end
 
 	def get_product(p)
 		#returns the Product of type p
+		return allProducts[p]
 	end
 
 	def add_product(p)
 		#creates a product of type p and sets current_product equal to that
-
+		prod = Product.new(p)
+		@current_product = prod
 	end
 
 	def mainMenu
@@ -97,14 +100,11 @@ class DSL
 	def optionFile
 		puts "Enter filename containing rules: "
 		file=gets.chomp
-<<<<<<< HEAD
 		rulesFile = file.open(file, "r")
 		rescue Errno::ENOENT 
 			#no such file or directory found
 			optionFile
 		end 
-=======
->>>>>>> 69285090e998246a8627747918f87d3f0decc825
 		# add a .txt extension if not there
 		if !file.include?".txt"
 			file=file+".txt"
@@ -126,11 +126,10 @@ class DSL
 		#process product
 		if prod == 'D'
 			return
+		end
 
 		raise ArgumentError, "Undefined product: #{prod}"
 			# argument is incorrect
-
-	end
 
 end
 
@@ -140,37 +139,24 @@ def product(p)
 		else
 			DSL.instance.current_product = DSL.instance.get_product(p)
 		end
-	end
-
-<<<<<<< HEAD
 end
 
-
-#book, membership, ski pass, ski video, ski boots, ski helmet
-allProducts = Hash.new
-
-def product(* p)
-	if p.size > 1
-		#throw exception
-	end
-	p=p[0]
-	prod = Product.new(p)
-	allProducts[p] = prod
 end
 
-def packing_slip(* slip)
-	if slip.size > 1
-		#throw exception
-		raise ArgumentError, "Function takes one parameter"
-	end
-	slip= slip[0]
-
-end
 
 def activate
 
 
 end
+
+def packing_slip(slip)
+		# how to add parameter and name of fn (packing_slip)
+		DSL.instance.current_product.add_action(slip)
+	end
+
+	def activate
+		DSL.instance.current_product.add_action(slip)
+	end
 
 def pay(* action)
 	if action.size > 1
@@ -201,17 +187,7 @@ def email(* args)
 	args = args[0]
 end
 load 'rules.txt'
-=======
-	def packing_slip(slip)
-		# how to add parameter and name of fn (packing_slip)
-		DSL.instance.current_product.add_action(slip)
-	end
-
-	def activate
-		DSL.instance.current_product.add_action(slip)
-	end
+	
 
 dsl=DSL.new
 dsl.mainMenu
-dsl.optionFile
->>>>>>> 69285090e998246a8627747918f87d3f0decc825
