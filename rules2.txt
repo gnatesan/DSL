@@ -1,0 +1,28 @@
+product 'book'
+packing_slip 'royalty'
+packing_slip 'shipping'
+
+product 'book'
+pay 'commission'
+
+product 'skipass'
+email 'purchaser'
+packing_slip 'shipping'
+pay 'commission'
+include_free 'discount'
+
+product 'video'
+packing_slip 'royalty'
+
+product 'video'
+packing_slip 'shipping'
+include_free 'first aid video'
+
+product 'membership'
+activate
+
+product 'boots'
+include_free 'discount'
+
+product 'helmet'
+sign 'warranty card'
