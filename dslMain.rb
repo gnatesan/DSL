@@ -107,6 +107,46 @@ class DSL
 		end
 	end
 
+	def mainMenuTest
+		# presents the main menu until the user quits
+		# allows the user to process orders
+		endExec=false
+		loadFile('rules.txt')
+	end
+
+	def mainMenuTester
+		# presents the main menu until the user quits
+		# allows the user to process orders
+		endExec=false
+		loadFileTest('badRules2.txt')
+	end
+
+	def loadFile(file)
+		begin 
+			load file
+		rescue LoadError => e 
+			puts "Reloading file"
+			optionFile
+		
+		rescue NameError => e
+			#put some messgae about nt beign able to load
+			puts "aborting, cannot load file"
+			abort
+
+		end
+	end
+
+	def loadFileTest(file)
+		begin 
+			load file
+
+		rescue NameError => e
+			#put some messgae about nt beign able to load
+			puts "aborting, cannot load file"
+			abort
+
+		end
+	end
 
 	def optionFile
 		puts "Enter filename containing rules: "
@@ -116,10 +156,13 @@ class DSL
 			file=file+".txt"
 		end
 		rulesFile = File.open(file, "r")
+		loadFile(rulesFile)
 		rescue Errno::ENOENT 
 			#no such file or directory found
+			puts "No such file or directory found, reenter name"
 			optionFile
-		end
+	end
+		
 
 	def processOrder
 		notStop=true
@@ -161,7 +204,7 @@ end
 def activate(* args)
 	# do error checking
 	if args.size!=0
-				raise ArgumentError, "Function takes no parameters"
+		raise ArgumentError, "Function takes no parameters"
 	end
 	DSL.instance.current_product.add_action("activate!")
 end
@@ -210,4 +253,3 @@ def email(* args)
 	args = args[0]
 	DSL.instance.current_product.add_action("email(\"#{args}\")!")
 end
-load 'badRules2.txt'

@@ -12,13 +12,14 @@ class DSLTester < Minitest::Test
 
 	def test_bad_file_name
 		#testing with badRules2.txt , which doesn't exist
-		assert_raise_with_message(Errno::ENOENT, "cannot load such file -- badRules2.txt")
+		DSL.instance.mainMenuTester
+		assert_raise_with_message(LoadError, "cannot load such file -- badRules2.txt")
 	end
 
 	def test_load
 		#testing with rules.txt, which exists and is valid
-		DSL.instance.mainMenu
-		assert_equals(6, DSL.instance.allProducts.size)
+		DSL.instance.mainMenuTest
+		assert_equal(6, DSL.instance.allProducts.size)
 		assert(DSL.instance.allProducts.contains("book"))
 		assert(DSL.instance.allProducts.contains("video"))
 		assert(DSL.instance.allProducts.contains("ski pass"))
