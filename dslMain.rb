@@ -147,11 +147,7 @@ class DSL
 	end
 
 	def loadFileTest(file)
-		begin 
-			load file
-
-		raise NameError
-	end
+		load file
 	end
 
 	def optionFile

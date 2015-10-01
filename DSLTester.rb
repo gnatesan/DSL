@@ -3,15 +3,14 @@ require_relative 'dslMain'
 
 class DSLTester < Minitest::Test
 
-	def test_bad_file_name
-		#testing with badRules2.txt , which doesn't exist
-		assert_raises(NameError) {DSL.mainMenuTester2}
-		
-	end
-
 	def test_badrules 
 		#testing with badRules.txt , contains incorrect format
-		assert_raises(NameError) {DSL.mainMenuTester}
+		assert_raises(NameError) {DSL.instance.mainMenuTester}
+	end
+
+	def test_bad_file_name
+		#testing with badRules2.txt , which doesn't exist
+		assert_raises(LoadError) {DSL.instance.mainMenuTester2}
 	end
 
 	def test_load
