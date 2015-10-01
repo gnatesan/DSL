@@ -3,28 +3,26 @@ require_relative 'dslMain'
 
 class DSLTester < Minitest::Test
 
-=begin
-	def test_badrules
-		DSL.instance.mainMenu
-		assert_raise_with_message(NameError, "books is not a valid product name")
-	end
-=end
-
 	def test_bad_file_name
 		#testing with badRules2.txt , which doesn't exist
-		DSL.instance.mainMenuTester
-		assert_raise_with_message(LoadError, "cannot load such file -- badRules2.txt")
+		assert_raises(NameError) {DSL.mainMenuTester2}
+		
+	end
+
+	def test_badrules 
+		#testing with badRules.txt , contains incorrect format
+		assert_raises(NameError) {DSL.mainMenuTester}
 	end
 
 	def test_load
 		#testing with rules.txt, which exists and is valid
 		DSL.instance.mainMenuTest
 		assert_equal(6, DSL.instance.allProducts.size)
-		assert(DSL.instance.allProducts.contains("book"))
-		assert(DSL.instance.allProducts.contains("video"))
-		assert(DSL.instance.allProducts.contains("ski pass"))
-		assert(DSL.instance.allProducts.contains("membership"))
-		assert(DSL.instance.allProducts.contains("boots"))
-		assert(DSL.instance.allProducts.contains("helmet"))
+		assert(DSL.instance.allProducts.has_key?("book"))
+		assert(DSL.instance.allProducts.has_key?("video"))
+		assert(DSL.instance.allProducts.has_key?("ski pass"))
+		assert(DSL.instance.allProducts.has_key?("membership"))
+		assert(DSL.instance.allProducts.has_key?("boots"))
+		assert(DSL.instance.allProducts.has_key?("helmet"))
 	end
 end

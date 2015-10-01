@@ -107,6 +107,7 @@ class DSL
 		end
 	end
 
+	#tests rules.txt
 	def mainMenuTest
 		# presents the main menu until the user quits
 		# allows the user to process orders
@@ -114,7 +115,16 @@ class DSL
 		loadFile('rules.txt')
 	end
 
+	#tests badRules.txt
 	def mainMenuTester
+		# presents the main menu until the user quits
+		# allows the user to process orders
+		endExec=false
+		loadFileTest('badRules.txt')
+	end
+
+	#test badRules2.txt (doesn't exist)
+	def mainMenuTester2
 		# presents the main menu until the user quits
 		# allows the user to process orders
 		endExec=false
@@ -140,12 +150,8 @@ class DSL
 		begin 
 			load file
 
-		rescue NameError => e
-			#put some messgae about nt beign able to load
-			puts "aborting, cannot load file"
-			abort
-
-		end
+		raise NameError
+	end
 	end
 
 	def optionFile
